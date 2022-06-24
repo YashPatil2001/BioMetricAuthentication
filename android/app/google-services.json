@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "1030193801116",
+    "firebase_url": "https://push-notification-demo-e88ab-default-rtdb.firebaseio.com",
+    "project_id": "push-notification-demo-e88ab",
+    "storage_bucket": "push-notification-demo-e88ab.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030193801116:android:50139ed15c655200d98a59",
+        "android_client_info": {
+          "package_name": "com.biometricauthentication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030193801116-hb2u8hlq4vfcg4l1adhkus8c6uhmd9u8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAA2-JlOj51_P9VKqHVdFQq9dkfinUP1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030193801116-hb2u8hlq4vfcg4l1adhkus8c6uhmd9u8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030193801116:android:ec13b29b131b819dd98a59",
+        "android_client_info": {
+          "package_name": "com.example.whatsappselectiondemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1030193801116-6244942kh887kr7vjcaitts5gjtid777.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whatsappselectiondemo",
+            "certificate_hash": "10f7763f9748c4c36ae01d88888b527530ffba2c"
+          }
+        },
+        {
+          "client_id": "1030193801116-hb2u8hlq4vfcg4l1adhkus8c6uhmd9u8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAA2-JlOj51_P9VKqHVdFQq9dkfinUP1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1030193801116-hb2u8hlq4vfcg4l1adhkus8c6uhmd9u8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
