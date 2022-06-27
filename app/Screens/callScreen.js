@@ -7,25 +7,27 @@ import {
   StyleSheet,
   Platform,
   PermissionsAndroid,
-  ToastAndroid
+  ToastAndroid,
+  Alert
 } from 'react-native';
 
 import RtcEngine from 'react-native-agora';
 import messaging from '@react-native-firebase/messaging';
+import { CallKeep } from '../utils/callKeep';
+import { DeviceEventEmitter } from 'react-native'
 
 
 const CallScreen = () => {
     
-    const [ appId, setAppId ] = useState('b480bf670482470a833e3e03a40ddf37')
-    const [ token, setToken ] = useState('006b480bf670482470a833e3e03a40ddf37IADhfyBQA2WCbEg0nPMS4qp153qrS3cTAa5nKs1w49Kjxwx+f9gAAAAAEACJVdSDN/e1YgEAAQA297Vi')
+    const [ appId, setAppId ] = useState('6174b02b2b4f458886cb2ff254009d31')
+    const [ token, setToken ] = useState('0066174b02b2b4f458886cb2ff254009d31IABXtr2y/aztaa8mZpFwFI8m/iPqebik5xVc5PBc7KsDTM0xl5AAAAAAEABGROOeya62YgEAAQDKrrZi')
     const [ channelName, setChannelName ] = useState('Test')
     const [ openMicrophone, setOpenMicrophone ] = useState(true)
     const [ enableSpeakerphone, setEnableSpeakerphone ] = useState(true)
     const [ joinSucceed, setJoinSucceed ] = useState(false)
     const [ peerIds, setPeerIds ] = useState([])
-    const [ engine, setEngine ] = useState();
-
-
+    // const [ engine, setEngine ] = useState();
+    var engine;
     const requestCameraAndAudioPermission = async () =>{
         try {
             const granted = await PermissionsAndroid.requestMultiple([
@@ -61,41 +63,56 @@ const CallScreen = () => {
     const setupCloudMessaging  = () => {
           requestUserPermission();
     }
-    const init = async () => {
-       const rtc = await RtcEngine.create(appId).catch( err => console.log('enging err: ',err))
-        setEngine(rtc)
-        // Enable the audio module.
-        await engine.enableAudio()
-    
-    
-        // Listen for the UserJoined callback.
+
+    const setupRTC = async ( rtc ) => {
+      //  setEngine((pRtc) => {
+      //        console.log('prtc : ',pRtc);
+      //        console.log('rtc : ',rtc);
+      //        return rtc;
+      //  })
+      // setEngine(rtc);
+      engine = rtc;
+       console.log('rtc : ',rtc)
+       console.log('engine : ',engine)
+
+       // Enable the audio module.
+       await rtc.enableAudio()
+       // Listen for the UserJoined callback.
         // This callback occurs when the remote user successfully joins the channel.
-        engine.addListener('UserJoined', (uid, elapsed) => {
-            console.log('UserJoined', uid, elapsed)
-            ToastAndroid.show(`user with ${uid} joined`,ToastAndroid.SHORT);
-            if (peerIds.indexOf(uid) === -1) {
-                setPeerIds( prevPeerIds => {
-                    return [ ...prevPeerIds, uid];
-                })
-            }
-        }).catch( err => console.log('UserJoined : ',err))
+        rtc.addListener('UserJoined', (uid, elapsed) => {
+          console.log('UserJoined', uid, elapsed)
+          ToastAndroid.show(`user with ${uid} joined`,ToastAndroid.SHORT);
+          if (peerIds.indexOf(uid) === -1) {
+              setPeerIds( prevPeerIds => {
+                  return [ ...prevPeerIds, uid];
+              })
+          }
+      })
 
-    // Listen for the UserOffline callback.
+       // Listen for the UserOffline callback.
     // This callback occurs when the remote user leaves the channel or drops offline.
-    engine.addListener('UserOffline', (uid, reason) => {
-        console.log('UserOffline', uid, reason)
-            // Remove peer ID from state array
-            ToastAndroid.show(`user with ${uid} leaved`,ToastAndroid.SHORT);
-            setPeerIds(peerIds.filter(id => id !== uid))
-            // peerIds: peerIds.filter(id => id !== uid)
-      }).catch( err => console.log('UserOffline : ',err))
+    rtc.addListener('UserOffline', (uid, reason) => {
+      console.log('UserOffline', uid, reason)
+          // Remove peer ID from state array
+          ToastAndroid.show(`user with ${uid} leaved`,ToastAndroid.SHORT);
+          setPeerIds(peerIds.filter(id => id !== uid))
+          // peerIds: peerIds.filter(id => id !== uid)
+    })
 
-     // Listen for the JoinChannelSuccess callback.
+    // Listen for the JoinChannelSuccess callback.
     // This callback occurs when the local user successfully joins the channel.
-    engine.addListener('JoinChannelSuccess', (channel, uid, elapsed) => {
-        console.log('JoinChannelSuccess', channel, uid, elapsed)
-        setJoinSucceed(true)
-    }).catch( err => console.log('JoinChannelSuccess : ',err))
+   rtc.addListener('JoinChannelSuccess', (channel, uid, elapsed) => {
+    ToastAndroid.show('joined',ToastAndroid.SHORT);
+     console.log('JoinChannelSuccess', channel, uid, elapsed)
+     setJoinSucceed(true)
+   })
+
+   return rtc;
+    }
+    const init = async () => {
+       const rtc = await RtcEngine.create('6174b02b2b4f458886cb2ff254009d31')
+                 .then( rtc => setupRTC(rtc))
+                 .catch( err => console.log('enging err: ',err))
     }
 
     if (Platform.OS === 'android') {
@@ -106,7 +123,14 @@ const CallScreen = () => {
     }
 
  const  joinChannel = async () => {
-       engine?.joinChannel(token, channelName, null, 0).then().catch( err => console.log('err ',err))
+  console.log('join engine : ', engine);
+  ToastAndroid.show('join engine : ' +  engine,ToastAndroid.SHORT);
+       engine?.joinChannel(
+        '0066174b02b2b4f458886cb2ff254009d31IABGLWdN5aDlYCWXcdiNOITRurDZb0TZ6b24H+4Edj0lwc0xl5AAAAAAEACDxJolmRa4YgEAAQCbFrhi', 
+        'maxdigi', 
+        null, 
+        0)
+        .catch( err => console.log('err ',err))
     }
 
     // Turn the microphone on or off.
@@ -134,11 +158,12 @@ const  switchSpeakerphone = () => {
     }
 
     useEffect(() => {
-        setupCloudMessaging()
+        // setupCloudMessaging()
         init();
+        setupCloudMessaging()
         messaging().onNotificationOpenedApp(remoteMessage => {
           console.log(
-            'Notification :',
+            'onNotificationOpenedApp : Notification :',
            JSON.stringify(remoteMessage),
           );
         });
@@ -147,7 +172,7 @@ const  switchSpeakerphone = () => {
      messaging().getInitialNotification(remoteMessage => {
       if (remoteMessage) {
         console.log(
-          'Notification 1:',
+          'getInitialNotification : Notification',
           JSON.stringify(remoteMessage),
         );
         // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
@@ -155,7 +180,31 @@ const  switchSpeakerphone = () => {
       // setLoading(false);
     });   
 
-    messaging().onMessage( remoteMessage => alert(`message : ${JSON.stringify(remoteMessage)}`))
+    messaging().onMessage( remoteMessage => {
+      console.log(`Foreground : message : ${JSON.stringify(remoteMessage.data)}`)
+      let data = remoteMessage.data;
+      // setToken(data.token)
+      // setChannelName(data.channelName)
+      // let callKeep = new CallKeep();
+      // callKeep.startCall('Yash');
+     
+      // engine?.joinChannel(data.token, data.channelName, null, 0)
+            //  .then( joinData => console.log('join Info: ',joinData,data.token,data.channelName))
+            //  .catch( err => console.log('err ',err))      
+
+    })
+
+        DeviceEventEmitter.addListener('accept', () => {
+          //Do something!
+           ToastAndroid.show('CAll Accepted',ToastAndroid.SHORT);
+           console.log('accepted call')
+           joinChannel();
+        })
+           DeviceEventEmitter.addListener('reject', () => {
+          //Do something!
+          ToastAndroid.show('CAll Rejected',ToastAndroid.SHORT);
+          console.log('accepted rejected')
+        })
 
     },[])
 

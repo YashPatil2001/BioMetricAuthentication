@@ -17,6 +17,8 @@
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-agora": "^3.7.0",
+    "react-native-callkeep": "^4.3.3",
+    "react-native-push-notification": "^8.1.1",
     "react-native-touch-id": "^4.4.1"
   },
   "devDependencies": {

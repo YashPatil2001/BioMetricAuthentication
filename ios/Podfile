@@ -25,6 +25,8 @@ target 'BioMetricAuthentication' do
 
   pod 'react-native-agora', :path => '../node_modules/react-native-agora'
 
+  pod 'RNCallKeep', :path => '../node_modules/react-native-callkeep'
+
   target 'BioMetricAuthenticationTests' do
     inherit! :complete
     # Pods for testing

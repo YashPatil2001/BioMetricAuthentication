@@ -2,13 +2,17 @@
  * @format
  */
 
-import {AppRegistry} from 'react-native';
+import {AppRegistry, NativeModules } from 'react-native';
+const { CallModule } = NativeModules;
 import App from './App';
 import {name as appName} from './app.json';
 import messaging from  '@react-native-firebase/messaging'
+
 AppRegistry.registerComponent(appName, () => App);
 
-
+console.log('NativeModules : ',JSON.stringify(NativeModules))
 messaging().setBackgroundMessageHandler( message => {
-    console.log('message : ',message)
+    CallModule.showIncomingCall("Yash Patil");
+    console.log('NativeModules : ',JSON.stringify(CallModule))
+    console.log('setBackgroundMessageHandler : notification : ',message)
 })
