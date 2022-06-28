@@ -47,7 +47,9 @@ public class CallService extends FirebaseMessagingService {
 //            if(startCallType.equals(notifDataType)|| disconnectCallType.equals(notifDataType)) {
             Log.e(TAG, "onMessageReceived: isAppRunning : " + isAppRunning());
 //                showIncomingCallScreen(remoteMessage,!isAppRunning());
-            sendNotification(remoteMessage);
+
+            showIncomingCallScreen(remoteMessage,isAppRunning());
+//            sendNotification(remoteMessage);
                 return;
 //            }
         } catch (Exception e) {
@@ -65,7 +67,7 @@ public class CallService extends FirebaseMessagingService {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             i.putExtra("CALLER_NAME", "Yash Patil");
             i.putExtra("CALL_TYPE","IncomingCall");
-            i.putExtra("APP_STATE",isAppRunning);
+            i.putExtra("APP_STATE",    isAppRunning);
             startActivity(i);
 //        }else if(disconnectCallType.equals((notifDataType))){
 //            LocalBroadcastManager localBroadcastManager = LocalBroadcastManager
@@ -116,7 +118,7 @@ public class CallService extends FirebaseMessagingService {
                 .setAutoCancel(false)
                 .setSound(notification_sound)
                 .addAction(acceptCall)
-                .setTimeoutAfter(5000)
+                .setTimeoutAfter(20000)
                 .addAction(rejectCall)
                 .setSmallIcon(R.drawable.acpt_btn)
                 .setContentIntent(pendingIntent)

@@ -98,7 +98,7 @@ public class CallModule extends ReactContextBaseJavaModule {
                 .setAutoCancel(false)
                 .setSound(notification_sound)
                 .addAction(acceptCall)
-                .setTimeoutAfter(11000)
+                .setTimeoutAfter(20000)
                 .addAction(rejectCall)
                 .setSmallIcon(R.drawable.acpt_btn)
                 .setContentIntent(pendingIntent)
