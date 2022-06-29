@@ -6,7 +6,7 @@ install! 'cocoapods', :deterministic_uuids => false
 
 target 'BioMetricAuthentication' do
   config = use_native_modules!
-
+  use_modular_headers!
   # Flags change depending on the env values.
   flags = get_default_flags()
 
@@ -19,9 +19,7 @@ target 'BioMetricAuthentication' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  pod 'react-native-fingerprint-scanner', :path => '../node_modules/react-native-fingerprint-scanner'
 
-  pod 'TouchID', :path => '../node_modules/react-native-touch-id'
 
   pod 'react-native-agora', :path => '../node_modules/react-native-agora'
 

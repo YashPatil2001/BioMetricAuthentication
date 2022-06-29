@@ -6,6 +6,8 @@ import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import io.wazo.callkeep.RNCallKeepPackage;
 import io.wazo.callkeep.RNCallKeepPackage;
+import io.wazo.callkeep.RNCallKeepPackage;
+import io.wazo.callkeep.RNCallKeepPackage;
 import io.agora.rtc.react.RCTAgoraRtcPackage;
 
 import com.facebook.react.shell.MainReactPackage;

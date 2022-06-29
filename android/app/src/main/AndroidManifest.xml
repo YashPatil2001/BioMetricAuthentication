@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.biometricauthentication">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -7,8 +8,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <permission
         android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
@@ -23,13 +28,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".IncomingCallScreenActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
@@ -52,11 +51,23 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".CallService">
+<!--        <service android:name=".CallService">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
+
+        <service android:name="io.wazo.callkeep.VoiceConnectionService"
+            android:label="VoiceCall"
+            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
+        android:foregroundServiceType="camera|microphone|phoneCall" >
+
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="android.telecom.ConnectionService" />
             </intent-filter>
         </service>
+
+        <service android:name="io.wazo.callkeep.RNCallKeepBackgroundMessagingService" />
     </application>
 
 </manifest>
